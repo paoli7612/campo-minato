@@ -20,7 +20,7 @@ const int WIDTH = 20, HEIGHT = 15;
 
 // minesweeper
 struct world_t {
-	short unsigned int mat[WIDTH][HEIGHT];
+	unsigned int mat[WIDTH][HEIGHT];
 	int mine = 10;
 } world;
 
@@ -67,7 +67,7 @@ void load_world(){
 }
 
 // draw
-void gotoxy(int x, int y){
+void gotoxy(short int x,short int y){
 	COORD CursorPos = {x, y};
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsole, CursorPos);
@@ -125,10 +125,12 @@ void gioca(){
 	
 	gotoxy(WIDTH+5, 5); cout << "Q. Seleziona casella";
 	gotoxy(WIDTH+5, 7); cout << "W. Segna bandierina";
-	gotoxy(WIDTH+5, 9); cout << (char)24 << " " << (char)25 << " " << (char)26 << " " << (char)26;
+    gotoxy(WIDTH+5, 9); cout << "E. Torna al menù";
+	gotoxy(WIDTH+5, 11); cout << (char)24 << " " << (char)25 << " " << (char)26 << " " << (char)26;
 	
 	int px = 3, py = 3;
-	while (true){
+    bool keepPlaying = true;
+	while (keepPlaying){
 		gotoxy(px+1, py+1);
 		int key = getch();
 		switch (key){
@@ -148,7 +150,7 @@ void gioca(){
 				if (px < WIDTH-1)
 					px++;
 				break;
-			case 119: // W
+			case 'w': // W
 				if (world.mat[px][py] == 0){
 					world.mat[px][py] = FLAG;
 					setColor(BLUE);
@@ -158,12 +160,15 @@ void gioca(){
 					world.mat[px][py] = 0;
 					cout << " ";
 				}
+                break;
+            case 'e':
+                keepPlaying = false;
+                break;
 					
 		}
 
 	}
 	
-	getchar();
 	getchar();
 }
 
@@ -171,12 +176,11 @@ void gioca(){
 int main(){	
 	srand(time(NULL));
 	
-
 	init_world();
 
 	bool run = true;
 	while (run){
-		system("CLS");
+		system("cls");
 		init_screen();
 		draw_world();
 		draw_menu();
@@ -206,8 +210,6 @@ int main(){
 
 		}
 	}
-
-	
 
 	return 0;
 }
