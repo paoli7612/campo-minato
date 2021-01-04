@@ -1,13 +1,13 @@
 #include <iostream>
 #include <windows.h>
 #include <time.h>
+#include <fstream>
 
 const char MINE = 9;
 const short int RED = 12;
 const short int WHITE = 7;
-enum color {
-	
-};
+
+const char FILENAME[] = "data.dat";
 
 using namespace std;
 
@@ -50,6 +50,18 @@ void init_world(){
 				world.mat[x][y] = adjacent(x, y);
 }
 
+void save_world(){
+	ofstream file(FILENAME);
+	file.write((char*)&world, sizeof(world_t));
+	file.close();	
+}
+
+void load_world(){
+	ifstream file(FILENAME);
+	file.read((char*)&world, sizeof(world_t));
+	file.close();
+}
+
 // draw
 void gotoxy(int x, int y){
 	COORD CursorPos = {x, y};
@@ -90,20 +102,59 @@ void draw_world(){
 			}
 }
 
+void draw_menu(){
+	gotoxy(WIDTH+5, 5); cout << "1. Rigenera";
+	gotoxy(WIDTH+5, 7); cout << "2. Gioca";
+	gotoxy(WIDTH+5, 9); cout << "3. Salva";
+	gotoxy(WIDTH+5, 11); cout << "4. Carica";
+	gotoxy(WIDTH+5, 13); cout << "5. Esci";
+}
+
+void gioca(){
+	
+}
+
 // main
 int main(){	
 	srand(time(NULL));
 	
-	while (true){
+
+	init_world();
+
+	bool run = true;
+	while (run){
 		system("CLS");
 		init_screen();
-		init_world();
 		draw_world();
-		gotoxy(30, 5);
-		cout << "Press enter to continue..." << endl;
-		getchar();
-	}
-	
-	return 0;
+		draw_menu();
+		gotoxy(0, HEIGHT+5);
+		int scelta;
+		cout << "SCELTA >>> ";
+		cin >> scelta;
+		
+		switch(scelta){
+			case 1: // Rigenera
+				init_world();
+				break;
+			case 2: // Gioca
+				gioca();
+				break;
+			case 3: // Salva mondo
+				save_world();
+				break;
+			case 4: // Carica
+				load_world();
+				break;
+			case 5: // Esci
+				run = false;
+				break;
+			default:
+				cout << "Scelta non valida" << endl;
 
+		}
+	}
+
+	
+
+	return 0;
 }
