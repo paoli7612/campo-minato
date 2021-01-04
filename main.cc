@@ -3,6 +3,11 @@
 #include <time.h>
 
 const char MINE = 9;
+const short int RED = 12;
+const short int WHITE = 7;
+enum color {
+	
+};
 
 using namespace std;
 
@@ -19,7 +24,7 @@ int adjacent(int x, int y){
 	int adj = 0;
 	for (int xx=x-1; xx<x+2; xx++)
 		for (int yy=y-1; yy<y+2; yy++)
-			if (world.mat[xx][yy] == MINE)
+			if (xx >= 0 && yy >= 0 && xx < WIDTH && yy < HEIGHT && world.mat[xx][yy] == MINE)
 				adj++;
 	return adj;
 }
@@ -31,8 +36,8 @@ void init_world(){
 	
 	int done = 0;
 	while (done < world.mine){
-		int x = rand()%WIDTH;
-		int y = rand()%HEIGHT;
+		int x = rand()%(WIDTH);
+		int y = rand()%(HEIGHT);
 		if (world.mat[x][y] == 0){
 			world.mat[x][y] = MINE;
 			done++;
@@ -50,6 +55,10 @@ void gotoxy(int x, int y){
 	COORD CursorPos = {x, y};
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsole, CursorPos);
+}
+
+void setColor(int value){
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),  value);
 }
 
 void init_screen(){
@@ -72,18 +81,29 @@ void draw_world(){
 		for (int x=0; x<WIDTH; x++)	
 			if (world.mat[x][y] > 0){
 				gotoxy(x+1, y+1);
-				cout << world.mat[x][y];
+				if (world.mat[x][y] == MINE){
+					setColor(RED);
+					cout << (char)1;
+					setColor(WHITE);
+				} else 
+					cout << world.mat[x][y];
 			}
 }
 
 // main
-int main(){
+int main(){	
 	srand(time(NULL));
 	
-	init_screen();
-	init_world();
-	draw_world();
-	getchar();
+	while (true){
+		system("CLS");
+		init_screen();
+		init_world();
+		draw_world();
+		gotoxy(30, 5);
+		cout << "Press enter to continue..." << endl;
+		getchar();
+	}
+	
 	return 0;
 
 }
