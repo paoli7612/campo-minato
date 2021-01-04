@@ -6,6 +6,17 @@ using namespace std;
 // settings
 const int WIDTH = 20, HEIGHT = 15;
 
+// minesweeper
+struct world_t {
+	short unsigned int mat[WIDTH][HEIGHT];
+} world;
+
+void init_world(){
+	for (int y=0; y<HEIGHT; y++)
+		for (int x=0; x<WIDTH; x++)
+			world.mat[x][y] = 0;
+}
+
 // draw
 void gotoxy(int x, int y){
 	COORD CursorPos = {x, y};
@@ -28,8 +39,14 @@ void init_screen(){
 	gotoxy(WIDTH, HEIGHT); cout << (char)188;
 }
 
+void draw_world(){
+	
+}
+
+// main
 int main(){
 	init_screen();
+	init_world();
 
 	return 0;
 
