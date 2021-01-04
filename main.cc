@@ -2,10 +2,14 @@
 #include <windows.h>
 #include <time.h>
 #include <fstream>
+#include <conio.h>
 
-const char MINE = 9;
+const char MINE = 10;
+const char FLAG = 11;
+
 const short int RED = 12;
 const short int WHITE = 7;
+const short int BLUE = 13;
 
 const char FILENAME[] = "data.dat";
 
@@ -97,6 +101,10 @@ void draw_world(){
 					setColor(RED);
 					cout << (char)1;
 					setColor(WHITE);
+				} else if (world.mat[x][y] == FLAG){
+					setColor(BLUE);
+					cout << (char)157;
+					setColor(WHITE);
 				} else 
 					cout << world.mat[x][y];
 			}
@@ -111,7 +119,52 @@ void draw_menu(){
 }
 
 void gioca(){
+	system("cls");
+	init_screen();
+	draw_world();
 	
+	gotoxy(WIDTH+5, 5); cout << "Q. Seleziona casella";
+	gotoxy(WIDTH+5, 7); cout << "W. Segna bandierina";
+	gotoxy(WIDTH+5, 9); cout << (char)24 << " " << (char)25 << " " << (char)26 << " " << (char)26;
+	
+	int px = 3, py = 3;
+	while (true){
+		gotoxy(px+1, py+1);
+		int key = getch();
+		switch (key){
+			case 72: // su
+				if (py > 0)
+					py--;
+				break;
+			case 75: // sinistra
+				if (px > 0)
+					px--;
+				break;
+			case 80: // giu
+				if (py < HEIGHT-1)
+					py++;
+				break;
+			case 77: // destra
+				if (px < WIDTH-1)
+					px++;
+				break;
+			case 119: // W
+				if (world.mat[px][py] == 0){
+					world.mat[px][py] = FLAG;
+					setColor(BLUE);
+					cout << (char)157;
+					setColor(WHITE);
+				} else if (world.mat[px][py] == FLAG){
+					world.mat[px][py] = 0;
+					cout << " ";
+				}
+					
+		}
+
+	}
+	
+	getchar();
+	getchar();
 }
 
 // main
