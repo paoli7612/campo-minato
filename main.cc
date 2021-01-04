@@ -1,5 +1,8 @@
 #include <iostream>
 #include <windows.h>
+#include <time.h>
+
+#define MINE 10
 
 using namespace std;
 
@@ -9,12 +12,24 @@ const int WIDTH = 20, HEIGHT = 15;
 // minesweeper
 struct world_t {
 	short unsigned int mat[WIDTH][HEIGHT];
+	int mine = 10;
 } world;
 
 void init_world(){
 	for (int y=0; y<HEIGHT; y++)
 		for (int x=0; x<WIDTH; x++)
 			world.mat[x][y] = 0;
+	
+	int done = 0;
+	while (done < world.mine){
+		int x = rand()%WIDTH;
+		int y = rand()%HEIGHT;
+		if (world.mat[x][y] == 0){
+			world.mat[x][y] = MINE;
+			done++;
+		}
+		
+	}	
 }
 
 // draw
@@ -43,12 +58,15 @@ void draw_world(){
 	for (int y=0; y<HEIGHT; y++)
 		for (int x=0; x<WIDTH; x++)	{
 			gotoxy(x+1, y+1);
-			cout << world.mat[x][y];
+			if (world.mat[x][y] == MINE)
+				cout << (char)1;
 		}
 }
 
 // main
 int main(){
+	srand(time(NULL));
+	
 	init_screen();
 	init_world();
 	draw_world();
