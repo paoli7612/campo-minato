@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <time.h>
 
-#define MINE 10
+const char MINE = 9;
 
 using namespace std;
 
@@ -14,6 +14,15 @@ struct world_t {
 	short unsigned int mat[WIDTH][HEIGHT];
 	int mine = 10;
 } world;
+
+int adjacent(int x, int y){
+	int adj = 0;
+	for (int xx=x-1; xx<x+2; xx++)
+		for (int yy=y-1; yy<y+2; yy++)
+			if (world.mat[xx][yy] == MINE)
+				adj++;
+	return adj;
+}
 
 void init_world(){
 	for (int y=0; y<HEIGHT; y++)
@@ -28,8 +37,12 @@ void init_world(){
 			world.mat[x][y] = MINE;
 			done++;
 		}
-		
-	}	
+	}
+	
+	for (int y=0; y<HEIGHT; y++)
+		for (int x=0; x<WIDTH; x++)
+			if (world.mat[x][y] == 0)
+				world.mat[x][y] = adjacent(x, y);
 }
 
 // draw
@@ -56,11 +69,11 @@ void init_screen(){
 
 void draw_world(){
 	for (int y=0; y<HEIGHT; y++)
-		for (int x=0; x<WIDTH; x++)	{
-			gotoxy(x+1, y+1);
-			if (world.mat[x][y] == MINE)
-				cout << (char)1;
-		}
+		for (int x=0; x<WIDTH; x++)	
+			if (world.mat[x][y] > 0){
+				gotoxy(x+1, y+1);
+				cout << world.mat[x][y];
+			}
 }
 
 // main
