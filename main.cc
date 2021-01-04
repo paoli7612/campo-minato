@@ -25,29 +25,34 @@ void gotoxy(int x, int y){
 }
 
 void init_screen(){
-	for (int y=0; y<HEIGHT; y++){
+	for (int y=0; y<HEIGHT+1; y++){
 		gotoxy(0, y); cout << (char)186;
-		gotoxy(WIDTH, y); cout << (char)186;
+		gotoxy(WIDTH+1, y); cout << (char)186;
 	}
-	for (int x=0; x<WIDTH; x++){
+	for (int x=0; x<WIDTH+1; x++){
 		gotoxy(x, 0); cout << (char)205;
-		gotoxy(x, HEIGHT); cout << (char)205;
+		gotoxy(x, HEIGHT+1); cout << (char)205;
 	}
 	gotoxy(0, 0); cout << (char)201;
-	gotoxy(0, HEIGHT); cout << (char)200;
-	gotoxy(WIDTH, 0); cout << (char)187;
-	gotoxy(WIDTH, HEIGHT); cout << (char)188;
+	gotoxy(0, HEIGHT+1); cout << (char)200;
+	gotoxy(WIDTH+1, 0); cout << (char)187;
+	gotoxy(WIDTH+1, HEIGHT+1); cout << (char)188;
 }
 
 void draw_world(){
-	
+	for (int y=0; y<HEIGHT; y++)
+		for (int x=0; x<WIDTH; x++)	{
+			gotoxy(x+1, y+1);
+			cout << world.mat[x][y];
+		}
 }
 
 // main
 int main(){
 	init_screen();
 	init_world();
-
+	draw_world();
+	getchar();
 	return 0;
 
 }
