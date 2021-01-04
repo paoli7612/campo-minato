@@ -18,10 +18,14 @@ void init_screen(){
 		gotoxy(0, y); cout << (char)186;
 		gotoxy(WIDTH, y); cout << (char)186;
 	}
-	for (int x=1; x<WIDTH; x++){
-		gotoxy(x, 0); cout << "-";
-		gotoxy(x, HEIGHT-1); cout << "-";
+	for (int x=0; x<WIDTH; x++){
+		gotoxy(x, 0); cout << (char)205;
+		gotoxy(x, HEIGHT); cout << (char)205;
 	}
+	gotoxy(0, 0); cout << (char)201;
+	gotoxy(0, HEIGHT); cout << (char)200;
+	gotoxy(WIDTH, 0); cout << (char)187;
+	gotoxy(WIDTH, HEIGHT); cout << (char)188;
 }
 
 int main(){
