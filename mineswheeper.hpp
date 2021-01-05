@@ -6,8 +6,9 @@
 
 using namespace std;
 
-const char MINE = 10;
-const char FLAG = 11;
+const int MINE = 10;
+const int FLAG = 11;
+const int DONE = 12;
 
 const short int RED = 12;
 const short int WHITE = 7;
@@ -25,6 +26,7 @@ struct world_t {
 	short unsigned int mat[WIDTH][HEIGHT],
 						hide[WIDTH][HEIGHT];
 	int mine = 10;
+	bool isLose = false, isWin = false;
 } world;
 
 int adjacent(int x, int y){
@@ -84,7 +86,6 @@ void setColor(int value){
 }
 
 void init_screen(){
-	system('CLS');
 	for (int y=0; y<HEIGHT+1; y++){
 		gotoxy(0, y); cout << (char)186;
 		gotoxy(WIDTH+1, y); cout << (char)186;
@@ -113,9 +114,25 @@ void draw_world(const short unsigned int m[WIDTH][HEIGHT]){
 					setColor(BLUE);
 					cout << (char)157;
 					setColor(WHITE);
-				} else 
+				} else if (m[x][y] == DONE){
+					cout << (char)3;
+				} else
 					cout << m[x][y];
 			}
+}
+
+void hit(int x, int y){
+	if (world.mat[x][y] == MINE){
+		world.isLose = true;
+		return ;		
+	}
+
+	if (world.mat[x][y] == 0){
+		world.mat[x][y] = DONE;
+		for (int xx=x-1; x<x+2; x++)
+			for (int yy=y-1; y<y+2; y++)
+				hit(xx, yy);
+	}
 }
 
 

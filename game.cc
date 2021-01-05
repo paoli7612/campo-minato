@@ -7,7 +7,7 @@ using namespace std;
 void loop(){
 	int x = 2, y = 2;
 	bool run = true;
-	draw_world(world.mat);
+	draw_world(world.hide);
 	while (run){
 		gotoxy(x+1, y+1);
 		char key = getch();
@@ -16,7 +16,11 @@ void loop(){
 			case 75: if (x > 0) x--; break;
 			case 80: if (y < HEIGHT-1) y++; break;
 			case 77: if (x < WIDTH-1) x++; break;
-			case 'q': hit(x, y); break;
+			case 'q':
+				hit(x, y);
+				draw_world(world.hide);
+				break;
+			//case 'w': flag(x, y); break;
 		}
 	}
 }
@@ -24,8 +28,7 @@ void loop(){
 int main(){
 	
 	load_world();
-	
-	
+	hit(3, 3);
 	loop();
 	
 	gotoxy(0, HEIGHT+5);
