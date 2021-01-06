@@ -18,8 +18,13 @@ void loop(){
 			case 77: if (x < WIDTH-1) x++; break;
 			case 'q':
 				hit(x, y);
-				if (world.isLose) screen_lose();
-				else draw_world(world.hide);
+				draw_world(world.hide);
+				if (world.isLose){
+					gotoxy(WIDTH+5, 5);
+					cout << "Premi invio per continuare...";
+					getchar();
+					screen_lose();
+				}
 				break;
 			//case 'w': flag(x, y); break;
 		}

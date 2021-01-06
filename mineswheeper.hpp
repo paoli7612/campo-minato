@@ -106,6 +106,12 @@ void screen_lose(){
 	exit(0);
 }
 
+void screen_win(){
+	system("cls");
+	cout << "HAI VINTO" << endl;
+	exit(0);
+}
+
 void draw_world(const short unsigned int m[WIDTH][HEIGHT]){
 	init_screen();
 	for (int y=0; y<HEIGHT; y++)
@@ -121,7 +127,9 @@ void draw_world(const short unsigned int m[WIDTH][HEIGHT]){
 					cout << (char)157;
 					setColor(WHITE);
 				} else if (m[x][y] == DONE){
-					cout << (char)3;
+					setColor(20);
+					cout << (char)0;
+					setColor(WHITE);
 				} else
 					cout << m[x][y];
 			}
@@ -135,9 +143,7 @@ void hit(int x, int y){
 		world.isLose = true;
 		world.hide[x][y] = MINE;
 		return;		
-	}
-		
-	if (world.mat[x][y] == 0 && world.hide[x][y] == 0){
+	} else if (world.mat[x][y] == 0 && world.hide[x][y] == 0){
 		world.hide[x][y] = DONE;
 		hit(x+1, y+1);
 		
@@ -145,7 +151,10 @@ void hit(int x, int y){
 			for (int yy=y-1; yy<y+2; yy++){		
 				hit(xx, yy);
 		}
+		return;
 	}
+	if (world.mat[x][y] > 0)
+	world.hide[x][y] = world.mat[x][y];
 }
 
 
