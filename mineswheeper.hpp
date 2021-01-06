@@ -101,7 +101,9 @@ void init_screen(){
 }
 
 void screen_lose(){
-	
+	system("cls");
+	cout << "HAI PERSO" << endl;
+	exit(0);
 }
 
 void draw_world(const short unsigned int m[WIDTH][HEIGHT]){
