@@ -3,7 +3,7 @@
 
 void draw_menu(){
 	gotoxy(WIDTH+5, 5); cout << "1. Rigenera";
-	
+	gotoxy(WIDTH+5, 7); cout << "2. Cambia numero mine";
 	gotoxy(WIDTH+5, 9); cout << "3. Salva";
 	gotoxy(WIDTH+5, 11); cout << "4. Carica";
 	gotoxy(WIDTH+5, 13); cout << "5. Esci";
@@ -27,7 +27,14 @@ int main(int argc, char** argv){
 		cin >> scelta;
 		
 		switch(scelta){
+			int n;
 			case 1: // Rigenera
+				init_world();
+				break;
+			case 2: // Cambia numero mine
+				cout << "Inserisci il numero di mine: ";
+				cin >> n;
+				world.mine = n;
 				init_world();
 				break;
 			case 3: // Salva mondo

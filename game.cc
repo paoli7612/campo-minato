@@ -18,7 +18,8 @@ void loop(){
 			case 77: if (x < WIDTH-1) x++; break;
 			case 'q':
 				hit(x, y);
-				draw_world(world.hide);
+				if (world.isLose) screen_lose();
+				else draw_world(world.hide);
 				break;
 			//case 'w': flag(x, y); break;
 		}
@@ -28,7 +29,7 @@ void loop(){
 int main(){
 	
 	load_world();
-	hit(3, 3);
+	//hit(3, 3);
 	loop();
 	
 	gotoxy(0, HEIGHT+5);
