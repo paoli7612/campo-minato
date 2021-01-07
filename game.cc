@@ -24,7 +24,12 @@ void loop(){
 					cout << "Premi invio per continuare...";
 					getchar();
 					screen_lose();
+				} else if (world.isWin){
+					screen_win();
 				}
+				
+				gotoxy(WIDTH+5, 5);
+				cout << world.isWin << endl;
 				break;
 			//case 'w': flag(x, y); break;
 		}

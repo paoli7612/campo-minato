@@ -52,6 +52,7 @@ void init_world(){
 		int y = rand()%(HEIGHT);
 		if (world.mat[x][y] == 0){
 			world.mat[x][y] = MINE;
+			world.hide[x][y] = MINE;
 			done++;
 		}
 	}
@@ -135,6 +136,14 @@ void draw_world(const short unsigned int m[WIDTH][HEIGHT]){
 			}
 }
 
+void control_win(){
+	for (int x=0; x<WIDTH; x++)
+		for (int y=0; y<HEIGHT; y++)
+			if (world.hide[x][y] == 0)
+				return;
+	world.isWin = true;
+}
+
 void hit(int x, int y){
 	if (x >= WIDTH || y >=HEIGHT || x<0 || y<0)
 		return;
@@ -153,8 +162,10 @@ void hit(int x, int y){
 		}
 		return;
 	}
-	if (world.mat[x][y] > 0)
-	world.hide[x][y] = world.mat[x][y];
+	if (world.mat[x][y] > 0){
+		world.hide[x][y] = world.mat[x][y];
+		control_win();
+	}
 }
 
 
